@@ -1,0 +1,9 @@
+[
+    {
+        "command": "pushb",
+        "keys": [
+            "ctrl+p",
+            "ctrl+b"
+        ]
+    }
+]
