@@ -14,15 +14,25 @@ except ImportError:
 
 
 API_ENDPOINT = 'https://api.pushbullet.com/v2'
+SETTINGS = sublime.load_settings('Pushb.sublime-settings')
+
+def get_setting(name, default=None):
+    val = SETTINGS.get(name)
+    if val == None:
+        try:
+            sublime.active_window().active_view().settings.get(name, default)
+        except:
+            return default
+    else:
+        return val
 
 
 class PushbCommand(sublime_plugin.TextCommand):
     def __init__(self, *args, **kwargs):
         super(PushbCommand, self).__init__(*args, **kwargs)
-        self.preferences = sublime.load_settings('pushb.sublime-settings')
         self.headers = {
             'Accept': 'application/json',
-            'Authorization': 'Bearer ' + self.preferences.get('token'),
+            'Authorization': 'Bearer ' + get_setting('token'),
             'Content-Type': 'application/json',
             'User-Agent': 'Sublime Text/%(version)s (%(platform)s/%(arch)s)' % {
                 'version': sublime.version(),
